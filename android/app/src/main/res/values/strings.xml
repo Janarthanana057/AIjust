@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AIjust</string>
+    <string name="title_activity_main">AIjust</string>
+    <string name="package_name">com.AIjust.startup</string>
+    <string name="custom_url_scheme">com.AIjust.startup</string>
+</resources>

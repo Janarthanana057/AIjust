@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful | Verifying...</title>
+    <style>
+        body { background: #121212; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding-top: 100px; margin: 0; }
+        .container { background: #1e1e1e; padding: 40px; border-radius: 20px; display: inline-block; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: #03e9f4; margin-bottom: 10px; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #03e9f4; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 25px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .status-text { font-size: 1.1em; color: #bbb; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Payment Received! 🚀</h2>
+        <p class="status-text" id="status-msg">We are upgrading your account to Premium...</p>
+        <div class="loader" id="loader"></div>
+    </div>
+
+    <script type="module">
+        // Import your existing firebase configuration
+        import { db } from './firebase-config.js'; 
+        import { doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        window.addEventListener('load', async () => {
+            const statusMsg = document.getElementById('status-msg');
+            const loader = document.getElementById('loader');
+
+            // 1. Get Payment ID from Razorpay URL and User Email from LocalStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentId = urlParams.get('razorpay_payment_id');
+            const userEmail = localStorage.getItem('userEmail'); // Make sure you set this during login!
+
+            if (paymentId && userEmail) {
+                try {
+                    // 2. Update Firebase permanently
+                    const userRef = doc(db, "users", userEmail);
+                    await updateDoc(userRef, {
+                        accountType: "premium",
+                        lastPaymentID: paymentId,
+                        premiumActive: true,
+                        paymentDate: serverTimestamp()
+                    });
+
+                    // 3. Update Local Storage for immediate speed
+                    localStorage.setItem('isPremium', 'true');
+                    localStorage.setItem('timeUsedToday', 0); // Reset limit for premium
+                    
+                    statusMsg.innerText = "Account Upgraded! Redirecting to Dashboard...";
+                    statusMsg.style.color = "#39ff14"; // Turn text green on success
+                } catch (error) {
+                    console.error("Firebase update failed:", error);
+                    statusMsg.innerText = "Database error. Please take a screenshot and contact support.";
+                    statusMsg.style.color = "#ff4444";
+                }
+            } else {
+                statusMsg.innerText = "No payment ID found. Redirecting...";
+            }
+
+            // 4. Redirect back to your main app
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

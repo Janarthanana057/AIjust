@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily English Quiz</title>
+    <link rel="icon" type="image/png" href="../aijust.png">
+    <link rel="stylesheet" href="quiz-style.css">
+</head>
+<body class="quiz-body">
+    <div class="quiz-page-container">
+        <div class="quiz-nav">
+            <div class="streak-badge">🔥 <span id="streak-number">0</span> DAY STREAK</div>
+            <a href="../dashboard.html" class="exit-btn">✖ EXIT</a>
+        </div>
+
+        <div class="split-screen">
+            <section class="question-column">
+                <div class="quiz-card">
+                    <h2 id="q-text">Loading...</h2>
+                    <div id="options-box" class="options-grid"></div>
+                    <div id="quiz-result-box" style="display: none; text-align: center; padding: 20px;"></div>
+                    <div id="feedback-msg"></div> 
+                </div>
+            </section>
+
+            <aside class="leaderboard-column">
+                <div class="leaderboard-card" style="display: flex; flex-direction: column; height: 500px;">
+                    <h3 style="padding: 15px; margin: 0;">🏆 Global Top 20</h3>
+                    
+                    <div class="v-scroll-area" style="flex: 1; overflow-y: auto; padding: 0 10px;">
+                        <table id="leaderboard-table" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="position: sticky; top: 0; background: #111; z-index: 10;">
+                                    <th style="text-align: left; padding: 8px;">Rank</th>
+                                    <th style="text-align: left; padding: 8px;">Name</th>
+                                    <th style="text-align: right; padding: 8px;">Points</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-body">
+                                </tbody>
+                        </table>
+                    </div>
+
+                    <div id="user-rank-footer" style="display: none; background: #222; border-top: 2px solid #39ff14; padding: 12px;">
+                        <div id="my-personal-row" style="display: flex; justify-content: space-between; color: #39ff14; font-weight: bold;"></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script type="module" src="quiz-logic.js"></script>
+</body>
+</html>

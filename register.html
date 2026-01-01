@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AIjust</title>
+    <link rel="icon" type="image/png" href="aijust.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style for the Google Button */
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: white;
+            color: #444;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .google-btn:hover {
+            background: #e1e1e1;
+        }
+        .or-text {
+            text-align: center;
+            color: #aaa;
+            margin: 15px 0;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="space-theme">
+
+    <div class="nebula"></div>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+    <div class="shooting-stars">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="login-box register-box">
+        <h2>New Registration</h2>
+        <form>
+        <div class="user-box">
+            <input type="text" id="full-name" required="" placeholder=" " maxlength="30">
+            <label for="full-name">&nbsp;&nbsp;&nbsp;Full Name</label>
+        </div>
+        <div class="user-box">
+            <input type="email" id="login-email" name="email" required placeholder=" " autocomplete="username" maxlength="30">
+            <label for="login-email">&nbsp;&nbsp;&nbsp;Email Address</label>
+        </div>
+
+        <div class="user-box">
+            <input type="password" id="login-pass" name="password" required placeholder=" " autocomplete="current-password" maxlength="30">
+            <label for="login-pass">&nbsp;&nbsp;&nbsp;Password</label>
+        </div>
+            
+            <a href="#" id="standard-signup" class="btn-neon">
+                <span></span><span></span><span></span><span></span>
+                Sign Up
+            </a>
+
+            <div class="or-text">- OR -</div>
+
+            <button type="button" id="google-signup" class="google-btn">
+                <img src="google.png" style="width:18px; margin-right:10px;">
+                Continue with Google
+            </button>
+
+            <div class="switch-page">
+                <p>Already have an account? <a href="login.html" class="link-text">Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            sendEmailVerification 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAU0WgjsPvnEHboSvGJp0RH4hR3YNdURKg",
+            authDomain: "justai-c92a6.firebaseapp.com",
+            projectId: "justai-c92a6",
+            storageBucket: "justai-c92a6.firebasestorage.app",
+            messagingSenderId: "605893343508",
+            appId: "1:605893343508:web:ef37642dd032c1381cea01",
+            measurementId: "G-PDT6MS9TQ5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // 1. TRUST CHECK: List of blocked fake email domains
+        const blockedDomains = ["tempmail.com", "10minutemail.com", "mailinator.com"];
+
+        // 2. STANDARD SIGN UP LOGIC
+        // 2. STANDARD SIGN UP LOGIC
+        const submitBtn = document.getElementById('standard-signup');
+
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // UPDATED IDs to match your HTML exactly
+            const name = document.getElementById('full-name').value;
+            const email = document.getElementById('login-email').value.trim(); // Fixed ID
+            const password = document.getElementById('login-pass').value;    // Fixed ID
+            
+            // Safety check to prevent crashing if email is empty
+            if (!email.includes('@')) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            const domain = email.split('@')[1];
+
+            // Verify if email domain is trusted
+            if (blockedDomains.includes(domain)) {
+                alert("Fake emails are blocked. Please use Gmail or Outlook.");
+                return;
+            }
+
+            // Firebase Registration
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Send verification email
+                    sendEmailVerification(userCredential.user); 
+                    
+                    alert("Account Created! Please check your email and click the verification link before logging in.");
+                    window.location.href = "login.html"; 
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        });
+
+        // 3. GOOGLE SIGN UP LOGIC (TRUSTED BY DEFAULT)
+        const googleBtn = document.getElementById('google-signup');
+        googleBtn.addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    
+                    // Save session data
+                    localStorage.setItem('userEmail', user.email);
+                    localStorage.setItem('userName', user.displayName || user.email.split('@')[0]);
+                    localStorage.setItem('accountType', 'student'); 
+
+                    alert("Verified Login: " + user.email);
+                    window.location.href = "dashboard.html"; 
+                })
+                .catch((error) => {
+                    alert("Google Login Failed: " + error.message);
+                });
+        });
+    </script>
+    <script>
+        document.querySelectorAll("#full-name, #login-email, #login-pass").forEach(input => {
+            input.addEventListener("blur", function() {
+                if (this.value.trim() !== "" && !this.value.startsWith("   ")) {
+                    this.value = "   " + this.value.trim();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

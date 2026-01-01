@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AIjust</title>
+    
+    <link rel="icon" type="image/png" href="aijust.png">
+    
+    <link rel="stylesheet" href="style.css">
+    <script>
+        history.pushState(null, null, null);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+</head>
+<body class="login-theme">
+
+    <ul class="squares"><li></li><li></li><li></li><li></li><li></li></ul>
+
+    <div class="login-box">
+        <h2>Login</h2>
+        <form>
+        <div class="user-box">
+            <input type="email" id="login-email" name="email" required placeholder=" " autocomplete="username" maxlength="30">
+            <label for="login-email">&nbsp;&nbsp;&nbsp;Email Address</label>
+        </div>
+
+        <div class="user-box">
+            <input type="password" id="login-pass" name="password" required placeholder=" " autocomplete="current-password" maxlength="30">
+            <label for="login-pass">&nbsp;&nbsp;&nbsp;Password</label>
+        </div>
+    
+    <div style="text-align: right; margin-bottom: 15px;">
+        <a href="#" id="forgot-password">Forgot Password?</a>
+    </div>
+
+    <a href="#" class="btn-neon" id="standard-login">
+        <span></span><span></span><span></span><span></span>
+        Login
+    </a>
+
+    <button type="button" id="google-login" style="background: white; color: #444; border-radius: 5px; padding: 10px; border: none; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; display: flex; align-items: center; justify-content: center;">
+        <img src="google.png" style="width:18px; margin-right:10px;">
+        Sign in with Google
+    </button>
+    
+    <div class="switch-page">
+        <p>New User? <a href="register.html" class="link-text">Register Here</a></p>
+    </div>
+</form>
+    </div>
+
+   <script type="module">
+    // 1. Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+        getAuth, 
+        signInWithEmailAndPassword, 
+        GoogleAuthProvider, 
+        signInWithPopup,
+        sendPasswordResetEmail 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // 2. Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyAU0WgjsPvnEHboSvGJp0RH4hR3YNdURKg",
+        authDomain: "justai-c92a6.firebaseapp.com",
+        projectId: "justai-c92a6",
+        storageBucket: "justai-c92a6.firebasestorage.app",
+        messagingSenderId: "605893343508",
+        appId: "1:605893343508:web:ef37642dd032c1381cea01",
+        measurementId: "G-PDT6MS9TQ5"
+    };
+
+    // 3. Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    // 4. Forgot Password Logic (Correct Placement)
+    const forgotBtn = document.getElementById('forgot-password');
+    if (forgotBtn) {
+        forgotBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            
+            if (!email) {
+                alert("Please type your email address in the box first!");
+                return;
+            }
+
+            sendPasswordResetEmail(auth, email)
+                .then(() => alert("Success! A password reset link has been sent to: " + email))
+                .catch((err) => alert("Error: " + err.message));
+        });
+    }
+
+    // 5. Helper for successful login
+    const handleSuccessfulLogin = (user, accountType = 'student') => {
+        localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('userName', user.displayName || user.email.split('@')[0]);
+        localStorage.setItem('accountType', accountType);
+        window.location.href = "dashboard.html";
+    };
+
+    // 6. Standard Login Logic
+    document.getElementById('standard-login').addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-pass').value;
+
+        if (!email || !password) {
+            alert("Please enter both email and password.");
+            return;
+        }
+
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            const isAdmin = (email === "test1@galaxy.com" || email === "test2@galaxy.com");
+
+            if (user.emailVerified || isAdmin) {
+                handleSuccessfulLogin(user, isAdmin ? 'admin' : 'student');
+            } else {
+                alert("Access Denied: Your email is not verified yet.");
+            }
+        } catch (error) {
+            alert("Login Failed: " + error.message);
+        }
+    });
+
+    // 7. Google Login Logic
+    document.getElementById('google-login').addEventListener('click', async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            handleSuccessfulLogin(result.user);
+        } catch (error) {
+            if (error.code !== 'auth/popup-closed-by-user') {
+                alert("Google Error: " + error.message);
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1021 @@
+/* =========================================
+   1. SHARED BASE STYLES
+   ========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Glassmorphism Card (Used by both pages) */
+.login-box {
+    position: relative;
+    width: 400px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.login-box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Input Fields */
+/* Removes the white/yellow box during paste and autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    /* This creates an internal shadow that covers the white box */
+    -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+    /* If transparent shows white, use your background color instead: */
+    /* -webkit-box-shadow: 0 0 0 30px #000 inset !important; */
+    
+    -webkit-text-fill-color: #fff !important; /* Keeps your text white */
+    transition: background-color 5000s ease-in-out 0s; /* Keeps it transparent forever */
+}
+
+/* Ensure the base input is always transparent */
+.user-box input {
+    background: transparent !important;
+    background-color: transparent !important;
+    outline: none;
+}
+.user-box { position: relative;
+            width: 85%;
+        max-width: 320px;
+        margin: 0 auto 35px auto;
+}
+.user-box input {
+    width: 100%; padding: 10px 0 10px 15px; font-size: 16px; color: #fff;
+    margin-bottom: 30px; border: none; border-bottom: 1px solid #fff;
+    outline: none; background: transparent;
+}
+.user-box label {
+    position: absolute; top: 0; left: 0; padding: 10px 0 10px;
+    font-size: 16px; color: #fff; pointer-events: none; transition: .5s;
+}
+.user-box input:focus ~ label, .user-box input:valid ~ label {
+    top: -20px; left: 0; color: #03e9f4; font-size: 12px;
+}
+.user-box input:focus ~ label, 
+.user-box input:not(:placeholder-shown) ~ label,
+.user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 12px;
+}
+
+/* Neon Button */
+.btn-neon {
+    position: relative; display: inline-block; padding: 10px 20px;
+    color: #03e9f4; font-size: 16px; text-decoration: none;
+    text-transform: uppercase; overflow: hidden; transition: .5s;
+    margin-top: 20px; letter-spacing: 4px;
+}
+.btn-neon:hover {
+    background: #03e9f4; color: #fff; border-radius: 5px;
+    box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4, 0 0 100px #03e9f4;
+}
+.btn-neon span { position: absolute; display: block; }
+.btn-neon span:nth-child(1) {
+    top: 0; left: -100%; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, #03e9f4);
+    animation: btn-anim1 1s linear infinite;
+}
+@keyframes btn-anim1 { 0% { left: -100%; } 50%,100% { left: 100%; } }
+.btn-neon span:nth-child(2) {
+    top: -100%; right: 0; width: 2px; height: 100%;
+    background: linear-gradient(180deg, transparent, #03e9f4);
+    animation: btn-anim2 1s linear infinite; animation-delay: .25s;
+}
+@keyframes btn-anim2 { 0% { top: -100%; } 50%,100% { top: 100%; } }
+.btn-neon span:nth-child(3) {
+    bottom: 0; right: -100%; width: 100%; height: 2px;
+    background: linear-gradient(270deg, transparent, #03e9f4);
+    animation: btn-anim3 1s linear infinite; animation-delay: .5s;
+}
+@keyframes btn-anim3 { 0% { right: -100%; } 50%,100% { right: 100%; } }
+.btn-neon span:nth-child(4) {
+    bottom: -100%; left: 0; width: 2px; height: 100%;
+    background: linear-gradient(360deg, transparent, #03e9f4);
+    animation: btn-anim4 1s linear infinite; animation-delay: .75s;
+}
+@keyframes btn-anim4 { 0% { bottom: -100%; } 50%,100% { bottom: 100%; } }
+
+/* Switch Page Text Links */
+.switch-page { margin-top: 20px; color: #fff; font-size: 14px; }
+.link-text { color: #03e9f4; text-decoration: none; font-weight: bold; }
+.link-text:hover { text-decoration: underline; color: #fff; }
+/* =========================================
+   2. LOGIN THEME (Tom & Jerry + Attractive Neon Gradient)
+   ========================================= */
+body.login-theme {
+    /* New Attractive Colors:
+       1. Deep Violet (#4A00E0)
+       2. Royal Blue (#8E2DE2)
+       3. Hot Pink (#fc6767) - Kept for energy
+       4. Cyan/Aqua (#23a6d5) - Very fresh
+       5. Electric Teal (#23d5ab)
+    */
+    background: linear-gradient(-45deg, #4A00E0, #8E2DE2, #fc6767, #23a6d5, #23d5ab);
+    
+    /* 500% size ensures the 5 colors flow very smoothly */
+    background-size: 500% 500%;
+    
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Floating Squares */
+.squares { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+.squares li {
+    position: absolute; display: block; list-style: none; width: 20px; height: 20px;
+    background: rgba(255, 255, 255, 0.2); animation: animateSquares 25s linear infinite; bottom: -150px;
+}
+
+/* Your requested setup (With fixed positions to avoid overlapping) */
+.squares li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+.squares li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+.squares li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+.squares li:nth-child(4){ left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+.squares li:nth-child(5){ left: 65%; width: 20px; height: 20px; animation-delay: 0s; } /* Changed position slightly */
+.squares li:nth-child(6){ left: 75%; width: 110px; height: 110px; animation-delay: 3s; } /* Added big square */
+.squares li:nth-child(7){ left: 35%; width: 150px; height: 150px; animation-delay: 7s; } /* Added huge square */
+.squares li:nth-child(8){ left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+.squares li:nth-child(9){ left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+.squares li:nth-child(10){ left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+@keyframes animateSquares {
+    0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+    100%{ transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+}
+
+/* Tom & Jerry Animation */
+.chase-anim {
+    position: absolute; bottom: 10px; left: -300px; z-index: 20; pointer-events: none;
+    animation: runAcrossScreen 8s linear infinite;
+}
+.chase-anim img { width: 200px; height: auto; }
+@keyframes runAcrossScreen {
+    0% { left: -300px; transform: scaleX(1); }
+    45% { left: 110%; transform: scaleX(1); }
+    100% { left: -300px; transform: scaleX(1); }
+}
+/* =========================================
+   3. REGISTER THEME (MILKY WAY - MASSIVE STARS)
+   ========================================= */
+body.space-theme {
+    /* Deep Galaxy Background */
+    background: #000;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* --- The Nebula (Galaxy Cloud) --- */
+.nebula {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* A mix of Deep Purple, Midnight Blue, and Black */
+    background: radial-gradient(150% 100% at bottom center, #5f0a87 0%, #200547 20%, #090a0f 60%, #000000 100%);
+    z-index: 0;
+    opacity: 0.8;
+}
+
+/* --- STAR WRAPPER (Wind Rotation) --- */
+#stars, #stars2, #stars3 {
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    transform: rotate(-45deg);
+    z-index: 0;
+}
+
+/* --- 1. Background Dust (The Milky Way - EXTREME DENSITY) --- */
+#stars {
+    width: 1px; height: 1px; background: transparent;
+    box-shadow: 
+        /* Block 1 */
+        100px 200px #FFF, 300px 400px #FFF, 500px 100px #FFF, 700px 600px #FFF,
+        900px 300px #FFF, 1100px 500px #FFF, 1300px 200px #FFF, 1500px 800px #FFF,
+        50px 700px #FFF, 250px 900px #FFF, 450px 50px #FFF, 650px 350px #FFF,
+        850px 150px #FFF, 1050px 750px #FFF, 1250px 450px #FFF, 1450px 650px #FFF,
+        1650px 50px #FFF, 1850px 250px #FFF, 50px 150px #FFF, 200px 850px #FFF,
+        /* Block 2 */
+        1700px 100px #FFF, 1200px 800px #FFF, 1900px 500px #FFF, 200px 20px #FFF,
+        400px 900px #FFF, 600px 50px #FFF, 800px 400px #FFF, 1000px 20px #FFF,
+        1200px 950px #FFF, 1400px 100px #FFF, 1600px 600px #FFF, 1800px 50px #FFF,
+        1950px 300px #FFF, 50px 950px #FFF, 250px 100px #FFF, 450px 800px #FFF,
+        /* Block 3 */
+        10px 10px #FFF, 300px 30px #FFF, 550px 80px #FFF, 900px 120px #FFF,
+        1100px 300px #FFF, 1300px 900px #FFF, 1500px 40px #FFF, 1800px 700px #FFF,
+        40px 400px #FFF, 140px 600px #FFF, 600px 300px #FFF, 800px 10px #FFF,
+        1750px 400px #FFF, 1550px 850px #FFF, 100px 1200px #FFF, 250px 1100px #FFF,
+        1900px 1200px #FFF, 1300px 50px #FFF, 50px 1100px #FFF, 600px 1200px #FFF,
+        /* Block 4 (New Dense Cluster) */
+        120px 1320px #FFF, 320px 1500px #FFF, 520px 1250px #FFF, 720px 1800px #FFF,
+        920px 1400px #FFF, 1120px 1700px #FFF, 1320px 1300px #FFF, 1520px 1900px #FFF,
+        1720px 1200px #FFF, 1920px 1600px #FFF, 80px 1900px #FFF, 280px 1100px #FFF,
+        480px 1450px #FFF, 680px 1650px #FFF, 880px 1350px #FFF, 1080px 1950px #FFF,
+        1280px 1650px #FFF, 1480px 1850px #FFF, 1680px 1230px #FFF, 1880px 1450px #FFF,
+        90px 1350px #FFF, 240px 1950px #FFF, 440px 1230px #FFF, 640px 1550px #FFF,
+        /* Block 5 (Super Dense Fillers) */
+        15px 1500px #FFF, 315px 1040px #FFF, 560px 1090px #FFF, 915px 1130px #FFF,
+        1115px 1310px #FFF, 1315px 1910px #FFF, 1515px 1050px #FFF, 1815px 1710px #FFF,
+        45px 1410px #FFF, 145px 1610px #FFF, 615px 1310px #FFF, 815px 1020px #FFF,
+        1765px 1410px #FFF, 1565px 1860px #FFF, 115px 1210px #FFF, 265px 1110px #FFF,
+        1915px 1210px #FFF, 1315px 1060px #FFF, 65px 1110px #FFF, 615px 1210px #FFF,
+        /* Block 6 (Final Density Layer) */
+        225px 1200px #FFF, 425px 1400px #FFF, 625px 1600px #FFF, 825px 1800px #FFF,
+        1025px 1150px #FFF, 1225px 1350px #FFF, 1425px 1550px #FFF, 1625px 1750px #FFF,
+        1825px 1950px #FFF, 35px 1850px #FFF, 235px 1650px #FFF, 435px 1450px #FFF,
+        635px 1250px #FFF, 835px 1050px #FFF, 1035px 1920px #FFF, 1235px 1720px #FFF,
+        1435px 1520px #FFF, 1635px 1320px #FFF, 1835px 1120px #FFF, 75px 1920px #FFF;
+
+    animation: animWind 30s linear infinite;
+}
+#stars::after { 
+    content: " "; position: absolute; left: 2000px; 
+    width: 1px; height: 1px; background: transparent; box-shadow: inherit; 
+}
+
+/* --- 2. Medium Stars --- */
+#stars2 {
+    width: 2px; height: 2px; background: transparent;
+    box-shadow: 
+        200px 300px #FFF, 400px 500px #FFF, 600px 200px #FFF, 800px 700px #FFF,
+        1000px 400px #FFF, 1200px 600px #FFF, 1400px 300px #FFF, 1600px 900px #FFF,
+        100px 800px #FFF, 300px 100px #FFF, 500px 400px #FFF, 700px 200px #FFF,
+        1800px 150px #FFF, 150px 950px #FFF, 1350px 50px #FFF, 50px 50px #FFF,
+        950px 850px #FFF, 1650px 450px #FFF, 250px 250px #FFF, 1150px 150px #FFF,
+        500px 1500px #FFF, 100px 1600px #FFF, 1500px 1200px #FFF, 1200px 1800px #FFF;
+    animation: animWind 60s linear infinite;
+}
+#stars2::after { content: " "; position: absolute; left: 2000px; width: 2px; height: 2px; background: transparent; box-shadow: inherit; }
+
+/* --- 3. Close/Bright Stars --- */
+#stars3 {
+    width: 3px; height: 3px; background: transparent;
+    box-shadow: 
+        150px 350px #FFF, 650px 550px #FFF, 1250px 150px #FFF, 1850px 850px #FFF,
+        50px 50px #FFF, 1900px 100px #FFF, 500px 900px #FFF, 800px 1400px #FFF;
+    animation: animWind 80s linear infinite;
+}
+#stars3::after { content: " "; position: absolute; left: 2000px; width: 3px; height: 3px; background: transparent; box-shadow: inherit; }
+
+@keyframes animWind { from { transform: translateX(0px); } to { transform: translateX(-2000px); } }
+
+/* --- Register Box (Glass) --- */
+.register-box {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(3px);
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+/* --- Shooting Stars (Matching Wind) --- */
+.shooting-stars {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    transform: rotateZ(-45deg); z-index: 1; pointer-events: none;
+}
+.shooting-stars span {
+    position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+    background: #fff; border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+    animation: shoot 2s linear infinite; opacity: 0;
+}
+.shooting-stars span::before {
+    content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 350px;
+    height: 1px; background: linear-gradient(90deg, #fff, transparent);
+    transform-origin: left; transform: rotate(180deg);
+}
+@keyframes shoot { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(2000px); opacity: 0; } }
+
+/* Scatter Shooting Stars */
+.shooting-stars span:nth-child(1) { top: 0; left: 0; animation-delay: 0s; }
+.shooting-stars span:nth-child(2) { top: 0; left: 50%; animation-delay: 1s; animation-duration: 3s; }
+.shooting-stars span:nth-child(3) { top: 50%; left: -20%; animation-delay: 1.5s; animation-duration: 2s; }
+.shooting-stars span:nth-child(4) { top: 50%; left: 20%; animation-delay: 2s; }
+.shooting-stars span:nth-child(5) { top: 80%; left: -10%; animation-delay: 0.5s; animation-duration: 1.5s; }
+.shooting-stars span:nth-child(6) { top: -20%; left: 0%; animation-delay: 2.5s; }
+.shooting-stars span:nth-child(7) { top: 60%; left: 40%; animation-delay: 3s; animation-duration: 2.5s; }
+.shooting-stars span:nth-child(8) { top: 20%; left: 70%; animation-delay: 3.5s; }
+
+/* dashboard file */
+/* style.css - FINAL VERSION */
+body {
+    margin: 0;
+    height: 100vh;
+    background: #121212;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* BIG VIDEO SCREEN */
+/* The container needs enough height to show the full portrait face */
+/* REPLACE old .avatar-container with this */
+.avatar-container {
+    position: relative;
+    width: 800px; 
+    height: 500px; 
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 25px;
+    background-color: #c9b9b9; /* Darker professional background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #03e9f4;
+    box-shadow: 0 0 30px rgba(3, 233, 244, 0.6);
+}
+
+/* REPLACE old .modal-content with this to make it wider for 3 plans */
+/* 1. Make the modal wider to fit 3 columns side-by-side */
+/* Ensure the popup is wide enough for the boxes side-by-side */
+/* 1. Center the wide popup */
+/* 1. THE MAIN POPUP: Wide with Rotating Rainbow Border */
+.modal-content.pricing-modal {
+    width: 95%;
+    max-width: 900px;
+    background: #050505;
+    padding: 40px;
+    border-radius: 30px;
+    position: relative;
+    text-align: center;
+    z-index: 1;
+    /* This creates the rotating rainbow line */
+    border: 4px solid transparent;
+    background-image: linear-gradient(#050505, #050505), 
+                      conic-gradient(from var(--angle), #ff0000, #ffeb3b, #00ff00, #03e9f4, #ff00f7, #ff0000);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: rotateBorder 4s linear infinite;
+    box-shadow: 0 0 50px rgba(3, 233, 244, 0.2);
+}
+
+/* Logic for Rotating Border */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotateBorder {
+  to { --angle: 360deg; }
+}
+
+/* 2. THE 3-COLUMN SPLIT: Neon Glass Cards */
+.pricing-grid {
+    display: flex;
+    flex-direction: row;  /* Keep in a horizontal line */
+    flex-wrap: nowrap;    /* NEVER allow them to stack vertically */
+    justify-content: center;
+    gap: 15px;            /* Small gap to save space */
+    width: 100%;
+    margin-top: 20px;
+    padding: 0 10px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.price-card {
+    /* Each card takes roughly 1/3rd of the screen automatically */
+    width: 31%;           
+    min-width: 100px;     /* Prevents them from disappearing entirely */
+    padding: 20px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    flex-shrink: 1;       /* Allows cards to shrink as window gets smaller */
+}
+
+/* Force Text to stay small in half-window */
+.price-card h3 {
+    font-size: clamp(0.7rem, 1.2vw, 1.1rem); 
+}
+
+.price-card .amount {
+    font-size: clamp(1rem, 2vw, 1.8rem); 
+}
+
+/* BRIGHT COLOR COMBINATIONS */
+.price-card.monthly:hover { 
+    border-color: #03e9f4; 
+    box-shadow: 0 0 30px rgba(3, 233, 244, 0.4); 
+    transform: scale(1.05); 
+}
+
+.price-card.popular {
+    border: 2px solid #ffeb3b;
+    background: linear-gradient(145deg, rgba(255, 235, 59, 0.1), transparent);
+    animation: cardPulse 2s infinite;
+}
+
+.price-card.yearly:hover { 
+    border-color: #ff00f7; 
+    box-shadow: 0 0 30px rgba(255, 0, 247, 0.4); 
+    transform: scale(1.05); 
+}
+
+@keyframes cardPulse {
+    0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 235, 59, 0.2); }
+    50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 235, 59, 0.5); }
+    100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 235, 59, 0.2); }
+}
+
+/* Plan Labels & Amounts */
+.price-card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; }
+.price-card .amount { font-size: 1.8rem; font-weight: bold; color: #03e9f4; margin-bottom: 5px; }
+.price-card .duration { font-size: 0.8rem; color: #888; margin-bottom: 15px; }
+
+.avatar-media, #ai-avatar {
+    /* THE FIX: Absolute positioning with translate keeps it dead center */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    max-width: 100%;
+    max-height: 100%;
+    
+    /* THE FIX: 'contain' ensures the full portrait fits inside the landscape box */
+    object-fit: contain; 
+}
+/* SPEAKING ANIMATIONS */
+.avatar-container.speaking {
+    border-color: #03e9f4;
+    box-shadow: 0 0 50px rgba(3, 233, 244, 0.4);
+}
+
+.avatar-container.speaking #ai-avatar {
+    animation: talk-pulse 0.5s infinite alternate;
+}
+
+@keyframes talk-pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+/* CONTROLS */
+h1 { color: #888; font-size: 1.5rem; margin-bottom: 10px; font-weight: normal; }
+.controls-area { margin-bottom: 15px; }
+
+select {
+    padding: 8px 15px;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+    border: 1px solid #555;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#status-text { color: #03e9f4; font-weight: bold; margin-bottom: 20px; height: 20px; }
+
+/* MIC BUTTON */
+.btn-mic {
+    width: 70px; height: 70px;
+    border-radius: 50%; background: #222; border: 2px solid #03e9f4;
+    color: #03e9f4; font-size: 32px; cursor: pointer;
+    box-shadow: 0 0 20px rgba(3, 233, 244, 0.2);
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
+}
+.btn-mic:hover { background: #03e9f4; color: #000; }
+.btn-mic.listening { background: #ff4444; border-color: #ff4444; color: white; box-shadow: 0 0 40px #ff4444; }
+
+.btn-logout { margin-top: 20px; background: none; border: none; color: #666; cursor: pointer; text-decoration: underline; }
+
+
+/* ai humen box*/
+/* Animation when AI is speaking */
+.speaking-animation {
+    border: 5px solid #00d2ff;
+    box-shadow: 0 0 20px #00d2ff;
+    animation: ripple 1.2s infinite ease-in-out;
+}
+
+@keyframes ripple {
+    0% { transform: scale(1); border-color: #00d2ff; }
+    50% { transform: scale(1.05); border-color: #0088ff; box-shadow: 0 0 30px #0088ff; }
+    100% { transform: scale(1); border-color: #00d2ff; }
+}
+/* this primum stting */
+/* Modal Background */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+/* Modal Box with Rainbow Border Animation */
+.modal-content {
+    position: relative;
+    background: #1a1a1a;
+    padding: 3px; /* Space for the rainbow border */
+    border-radius: 20px;
+    width: 350px;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.rainbow-border {
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: conic-gradient(#ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+    animation: rotate-rainbow 4s linear infinite;
+    z-index: 1;
+}
+
+@keyframes rotate-rainbow {
+    100% { transform: rotate(360deg); }
+}
+
+.modal-body {
+    position: relative;
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 18px;
+    z-index: 2;
+}
+
+.price-tag { margin: 20px 0; }
+.amount { font-size: 3rem; font-weight: bold; color: #03e9f4; }
+
+.glow-button {
+    background: #03e9f4;
+    color: #000;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 15px #03e9f4;
+    transition: 0.3s;
+}
+
+.glow-button:hover { transform: scale(1.05); box-shadow: 0 0 25px #03e9f4; }
+
+/* end session and notebook*/
+#notebook-container {
+    background: #1a1a1a;
+    border: 2px solid #ffeb3b;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    animation: glowPulse 2s infinite;
+}
+
+.notebook-header {
+    display: flex;
+    justify-content: space-between;
+    color: #ffeb3b;
+    font-weight: bold;
+}
+
+.notebook-appear {
+    animation: bounceIn 0.6s ease;
+}
+/*   that summary effects */
+/* ADD THIS TO YOUR CSS FILE */
+.summary-trigger-box {
+    position: relative;
+    background: rgba(255, 235, 59, 0.1); 
+    border: 2px dashed #ffeb3b;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    cursor: pointer;
+    text-align: center;
+    /* Smooth bouncy zoom effect */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    overflow: hidden;
+}
+/* Minimal version for Premium Dashboard */
+/* Ultra-Minimal version for Premium Dashboard */
+/* Ultra-Minimal Dashboard Version */
+.summary-trigger-box.minimal {
+    width: 160px;          /* Small fixed width for a "Pill" look */
+    height: 40px;          /* Fixed height to save vertical space */
+    padding: 0;            /* Remove padding to control size exactly */
+    margin: 10px auto;     /* Small gap between AI text and Logout */
+    display: flex;         /* Center contents perfectly */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px dashed #ffeb3b;
+    border-radius: 30px;   /* Round edges like a button */
+    background: rgba(255, 235, 59, 0.05);
+    transition: all 0.3s ease;
+}
+/* 1. REMOVE THE OUTER BOX */
+#notebook-container {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 10px auto !important;
+    display: none; /* Controlled by JS */
+}
+
+/* 2. KEEP ONLY THE INNER DASHED PILL */
+.summary-trigger-box.minimal {
+    width: 160px;
+    height: 38px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px dashed #ffeb3b; /* This is your inner dashed line */
+    border-radius: 20px;
+    background: rgba(255, 235, 59, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.summary-trigger-box.minimal:hover {
+    transform: scale(1.05);
+    background: rgba(255, 235, 59, 0.15);
+}
+
+.summary-trigger-box.minimal .motivate-text {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-transform: uppercase;
+}
+/* THE ZOOM EFFECT: Triggers on cursor touch */
+.summary-trigger-box:hover {
+    transform: scale(1.1); /* Zooms in 10% */
+    background: rgba(255, 235, 59, 0.2);
+    border-style: solid;
+    box-shadow: 0 0 30px rgba(255, 235, 59, 0.5);
+}
+
+.motivate-text {
+    color: #ffeb3c;
+    font-weight: 800;
+    font-size: 1rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* Neon glow effect on text */
+    text-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+}
+
+.sparkle-icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    display: inline-block;
+    animation: pulseSparkle 2s infinite;
+}
+
+@keyframes pulseSparkle {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/*  timer reached blinking the text */
+/* Blinking Red Animation */
+/* The Blinking Animation for the status text */
+.limit-blink {
+    animation: blinker 1.5s linear infinite;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}
+
+@keyframes blinker {
+    50% { opacity: 0.3; } /* Text fades in and out */
+}
+
+/*avthar contaner wave effect */
+/* The Speaking Wave Animation */
+/* 1. The Container MUST allow things to grow outside of it */
+
+/* 2. The Speaking Wave - Improved Visibility */
+/* Ensure the parent box allows the wave to be seen outside */
+.avatar-container {
+    position: relative;
+    overflow: visible !important; /* This MUST be visible for the wave to go outside */
+    z-index: 10;
+}
+
+/* The Sampling Wave (Outer Effect) */
+.voice-wave {
+    position: absolute;
+    /* Negative values pull the wave OUTSIDE the box */
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 25px; /* Matches your box curves */
+    border: 3px solid #03e9f4; /* Bright Cyan */
+    pointer-events: none;
+    display: none;
+    z-index: -1; /* Sits behind the box so it looks like it's coming from underneath */
+}
+
+/* The Animation */
+.voice-wave.active {
+    display: block;
+    animation: wave-out 1.2s ease-out infinite;
+}
+
+@keyframes wave-out {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+        box-shadow: 0 0 10px #03e9f4;
+    }
+    100% {
+        transform: scale(1.25); /* Grows 25% larger than the box */
+        opacity: 0;
+        box-shadow: 0 0 40px #03e9f4;
+    }
+}
+
+/* timer effects */
+/* Container for the Reset Countdown */
+#reset-timer-container {
+    display: none; /* Controlled by JavaScript */
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05); /* Subtle transparent box */
+    border: 1px solid rgba(3, 233, 244, 0.2); /* Faint cyan border */
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Label text */
+#reset-timer-container p {
+    color: #888;
+    font-size: 0.85rem;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* The actual Clock numbers */
+#countdown-clock {
+    color: #03e9f4; /* Cyan color to match the wave */
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace; /* Digital look */
+    text-shadow: 0 0 10px rgba(3, 233, 244, 0.5);
+}
+
+/* Small label for the clock */
+.timer-label {
+    display: block;
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+/*  buy plane effect */
+.price-card:hover {
+    transform: translateY(-5px) scale(1.02); /* Pop-up effect */
+    box-shadow: 0 10px 20px rgba(3, 233, 244, 0.3); /* Glow effect */
+}
+
+.price-card {
+    cursor: pointer; /* Makes it look clickable */
+    transition: all 0.3s ease;
+    user-select: none; /* Prevents text highlighting on click */
+}
+
+.price-card:active {
+    transform: scale(0.95); 
+    background: rgba(3, 233, 244, 0.1); /* Brief cyan flash on click */
+    border-color: #03e9f4;
+}
+
+/* Mobile Responsive Fix */
+@media (max-width: 768px) {
+    /* 1. Force the row layout so it never stacks vertically */
+    .pricing-grid {
+        display: flex !important;
+        flex-direction: row !important; 
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        gap: 2vw; /* Gap scales automatically with window width */
+        width: 100%;
+        padding: 0 5px;
+    }
+    
+    /* 2. Make cards flexible so they shrink to fit the half-window */
+    .price-card {
+        flex: 1; /* Cards grow/shrink equally to fill the space */
+        min-width: 0; /* Allows cards to shrink below their content size */
+        padding: 15px 5px;
+        border-radius: 15px;
+    }
+    #admin-reset-btn {
+        position: relative !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        margin: 10px auto;
+        display: block;
+        width: fit-content;
+    }
+    /* 3. Scale text automatically using 'vw' units */
+    .price-card h3 {
+        font-size: 2.5vw; /* Text gets smaller as the window shrinks */
+    }
+    .price-card .amount {
+        font-size: 4vw; /* Price scales with the window size */
+    }
+    .price-card .monthly-price {
+        font-size: 2vw;
+    }
+}
+.payment-trust-footer {
+    margin-top: 20px;
+    font-size: 0.75rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.payment-trust-footer span {
+    color: #00ff00; /* Green for safety */
+}
+.price-card {
+    position: relative;
+    z-index: 9999 !important; /* Forces the card to the very front */
+    pointer-events: auto !important; /* Ensures it can be clicked */
+}
+#premium-modal {
+    z-index: 9999; /* Ensures it is on top */
+}
+
+.price-card {
+    pointer-events: auto !important; /* Forces the card to accept clicks */
+    cursor: pointer !important;
+}
+/*  this the dialy effect */
+.quiz-btn-animated {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 25px;
+    background: #000;
+    color: #fff;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 10px;
+    z-index: 1;
+    
+    /* FIX: Maintains width in all window sizes */
+    min-width: 160px;
+    white-space: nowrap;
+    overflow: hidden; /* Important for the shimmer effect */
+
+    /* The Rainbow Border */
+    border: 2px solid transparent;
+    background-image: linear-gradient(#000, #000), 
+                      linear-gradient(45deg, #f06, #9f6, #0cf, #f06);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: 200% 200%;
+    
+    animation: border-dance 3s linear infinite;
+    transition: all 0.3s ease;
+}
+
+/* The Shimmer Beam (Makes users curious) */
+.quiz-btn-animated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent
+    );
+    transform: skewX(-25deg);
+    animation: shimmer 2.5s infinite;
+    z-index: 2;
+}
+
+/* Animations */
+@keyframes border-dance {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+/* Click-Me Hover Effect */
+.quiz-btn-animated:hover {
+    transform: scale(1.05);
+    background-image: linear-gradient(#000, #000), 
+                      linear-gradient(45deg, #0cf, #f06, #9f6, #0cf);
+    box-shadow: 0 0 20px rgba(35, 146, 150, 0.6);
+}
+
+/* payment */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Darkens background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+/*  mobile screec */
+/* ... All your other existing CSS code above ... */
+
+/* --- STEP 4: ADD THE RESPONSIVE CODE AT THE BOTTOM --- */
+
+/* This applies to all screens */
+.dashboard-container {
+    display: flex;
+    padding: 20px;
+}
+
+/* --- UNIVERSAL MOBILE STYLES --- */
+@media screen and (max-width: 768px) {
+    /* 1. Global Reset to prevent cutoffs */
+    /* --- Avatar & Header Mobile Fix --- */
+    .avatar-container, .header-banner {
+        width: 92% !important;      /* Leaves a small gap so it doesn't touch the screen edges */
+        max-width: 450px;           /* Prevents it from getting too big on tablets */
+        margin: 15px auto !important; /* Centers the container perfectly */
+        border-radius: 15px;        /* Matches the rounded look of your buttons */
+        overflow: hidden;           /* Ensures the image doesn't "leak" out of the glow border */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #03e9f4;  /* Adds the Cyan border to match your theme */
+        box-shadow: 0 0 15px #03e9f4; /* Adds the Neon Glow */
+    }
+
+    .avatar-container img {
+        width: 100%;                /* Makes the agent face fill the container width */
+        height: auto;               /* Maintains the correct face proportions */
+        object-fit: cover;          /* Ensures the face is centered and not stretched */
+    }
+/* Action Buttons Animation */
+    .btn-logout {
+        display: inline-block;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: #ff4d4d !important;
+        text-decoration: underline;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 20px !important;
+    }
+    
+    /* Ensure the "Daily Quiz" and other buttons animate on tap */
+    .quiz-btn-animated:active, #start-session:active {
+        transform: scale(0.95);
+        box-shadow: 0 0 20px #03e9f4;
+    }
+}
