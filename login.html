@@ -134,15 +134,20 @@
 
     // 7. Google Login Logic
     document.getElementById('google-login').addEventListener('click', async () => {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            handleSuccessfulLogin(result.user);
-        } catch (error) {
-            if (error.code !== 'auth/popup-closed-by-user') {
-                alert("Google Error: " + error.message);
+    try {
+                        const result = await signInWithPopup(auth, provider);
+                        handleSuccessfulLogin(result.user);
+                    }  catch (error) {
+                console.error("Firebase Error:", error);
+                console.error("Code:", error.code);
+                console.error("Message:", error.message);
+
+                alert(
+                    `Code: ${error.code}\nMessage: ${error.message}`
+                );
             }
         }
-    });
+    );
 </script>
 
 </body>
